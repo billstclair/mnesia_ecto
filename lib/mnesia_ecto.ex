@@ -107,6 +107,11 @@ defmodule Mnesia.Ecto do
   end
 
   @doc false
+  # This is wrong. We need to generate an ID.
+  def insert(repo, meta, fields, {field, :id, value}, returning, opts) do
+    insert(repo, meta, fields, {field, :binary_id, value}, returning, opts)
+  end
+
   def insert(repo, meta, fields, {field, :binary_id, _}, [], opts) do
     with_id = Keyword.put(fields, field, embed_id(nil))
     insert(repo, meta, with_id, nil, [], opts)
